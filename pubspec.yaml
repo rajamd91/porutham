@@ -1,0 +1,117 @@
+name: poruththam_app
+description: "A new Flutter project."
+
+
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.3 <4.0.0'
+
+#-----------------------PACKAGES-------------------------#
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Utility Packages
+  http: ^1.2.2
+  intl: ^0.19.0
+  logger: ^2.4.0
+  url_launcher: ^6.3.1
+  flutter_native_splash: ^2.4.0
+  smooth_page_indicator: ^1.2.0+3
+  lottie: ^3.1.3
+  connectivity_plus: ^5.0.1
+  shimmer: ^3.0.0
+  image_picker: ^1.1.2
+  line_awesome_flutter: ^3.0.1
+
+  # Icons
+  cupertino_icons: ^1.0.6
+  iconsax: ^0.0.8
+
+
+
+  # State Management
+  get: ^4.6.6
+  get_storage: ^2.1.1
+
+
+
+
+
+
+
+
+  # Product Specific
+  carousel_slider: ^5.0.0
+  readmore: ^3.0.0
+  flutter_rating_bar: ^4.0.1
+
+
+  # Firebase
+  firebase_core: ^3.4.0
+  cloud_firestore: ^5.4.0
+  cached_network_image: ^3.4.0
+  firebase_storage: ^12.2.0
+  google_sign_in: ^6.2.1
+  firebase_auth: ^5.3.1
+  dropdown_textfield: ^1.2.0
+  csc_picker: ^0.2.7
+  mailer: ^6.4.1
+  mask_text_input_formatter: ^2.9.0
+  date_field: ^6.0.3+1
+
+
+
+
+
+
+
+
+
+
+
+
+  #--------------------- PACKAGES END ---------------------#
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  
+  
+  flutter_lints: ^3.0.0
+
+
+flutter:
+  uses-material-design: true
+
+  #-------------------- LOCAL ASSETS -----------------------#
+  assets:
+    - assets/logos/
+    - assets/icons/
+    - assets/icons/categories/
+    - assets/images/on_boarding_images/
+    - assets/images/animations/
+    - assets/images/profile/
+
+  #-------------------- LOCAL FONTS -------------------------#
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Poppins-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Poppins-Italic.ttf
+          style: italic
+        - asset: assets/fonts/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 800
+

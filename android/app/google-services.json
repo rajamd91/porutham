@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "191189177644",
+    "project_id": "poruthamapp",
+    "storage_bucket": "poruthamapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191189177644:android:0b48b1bcee9f9cef1d0889",
+        "android_client_info": {
+          "package_name": "com.poruththam.poruththam_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "191189177644-4s6b8tfqjp63sko461qc88l7gro1h9te.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.poruththam.poruththam_app",
+            "certificate_hash": "e970b5588b2a65630474c878505c3b39b5e7afba"
+          }
+        },
+        {
+          "client_id": "191189177644-dlq65v25v9poe12t50fc5d9o64k02kvn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCICP_0iV69I5QwCRq2eNtS7aXBBSxn1VU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "191189177644-dlq65v25v9poe12t50fc5d9o64k02kvn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
