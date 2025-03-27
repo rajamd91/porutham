@@ -26,6 +26,9 @@ class TProfileCard extends StatelessWidget {
     required this.motherTongue,
     required this.image,
     required this.email,
+    this.onMorePressed,
+    this.onShortlistPressed,
+    this.onInterestPressed,
   });
 
   final String image;
@@ -38,98 +41,60 @@ class TProfileCard extends StatelessWidget {
   final String city;
   final String motherTongue;
   final String email;
+  final VoidCallback? onMorePressed;
+  final VoidCallback? onShortlistPressed;
+  final VoidCallback? onInterestPressed;
 
   @override
   Widget build(BuildContext context) {
     final userRepo = Get.put(UserRepository());
     final controller = Get.put(UserController());
+    final textTheme = Theme.of(context).textTheme;
+    final blackTextStyle = textTheme.bodyMedium?.apply(color: TColors.black);
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(TSizes.cardRadiusLg),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Obx(() {
-                  final networkImage = image;
-                  final timage =
-                      networkImage.isNotEmpty ? networkImage : TImages.user;
-                  return controller.imageUploading.value
-                      ? const TShimmerEffect(
-                          width: 80,
-                          height: 80,
-                          radius: 80,
-                        )
-                      : TCircularImage(
-                          image: image,
-                          width: 80,
-                          height: 80,
-                          isNetworkImage: networkImage.isNotEmpty,
-                        );
-                }),
-                const SizedBox(width: 10),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  //crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(profileId,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .apply(color: TColors.black)),
-                    Text(name,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium!
-                            .apply(color: TColors.black)),
-                    const SizedBox(height: TSizes.spaceBtwItems),
-                    Row(
-                      children: [
-                        Text(age,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .apply(color: TColors.black)),
-                        Text(height,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .apply(color: TColors.black)),
-                        Text(religion,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .apply(color: TColors.black)),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(division,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .apply(color: TColors.black)),
-                        Text(city,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .apply(color: TColors.black)),
-                        Text(motherTongue,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .apply(color: TColors.black)),
-                      ],
-                    ),
-                  ],
-                ),
-                Expanded(
-                  child: IconButton(
+        padding: const EdgeInsets.all(TSizes.sm),
+        child: Expanded(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Obx(() {
+                    final networkImage = image;
+                    final timage =
+                        networkImage.isNotEmpty ? networkImage : TImages.user;
+                    return controller.imageUploading.value
+                        ? const TShimmerEffect(
+                            width: 80,
+                            height: 80,
+                            radius: 80,
+                          )
+                        : TCircularImage(
+                            image: image,
+                            width: 80,
+                            height: 80,
+                            isNetworkImage: networkImage.isNotEmpty,
+                          );
+                  }),
+                  Column(
+                    children: [
+                      Text(profileId,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .apply(color: TColors.black)),
+                      Text(name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineMedium!
+                              .apply(color: TColors.black)),
+                    ],
+                  ),
+                  IconButton(
                     onPressed: () {},
                     icon: const Icon(
                       Icons.more_vert,
@@ -137,77 +102,162 @@ class TProfileCard extends StatelessWidget {
                       color: Colors.black,
                     ),
                   ),
-                ),
-              ],
-            ),
-            const Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    final firstName = controller.user.value.fullName;
-                    final profileId = controller.user.value.profileId;
+                ],
+              ),
+              Wrap(
+                //spacing: TSizes.spaceBtwItems / 2,
+                children: [
+                  _buildInfoChip(age),
+                  _buildInfoChip(height),
+                  _buildInfoChip(religion),
+                  // Text(age,
+                  //     style: Theme.of(context)
+                  //         .textTheme
+                  //         .bodyMedium!
+                  //         .apply(color: TColors.black)),
+                  // Text(height,
+                  //     style: Theme.of(context)
+                  //         .textTheme
+                  //         .bodyMedium!
+                  //         .apply(color: TColors.black)),
+                  // Text(religion,
+                  //     style: Theme.of(context)
+                  //         .textTheme
+                  //         .bodyMedium!
+                  //         .apply(color: TColors.black)),
+                ],
+              ),
+              Wrap(
+                //spacing: TSizes.spaceBtwItems / 4,
+                children: [
+                  _buildInfoChip(division),
+                  _buildInfoChip(city),
+                  _buildInfoChip(motherTongue),
+                  // Text(division,
+                  //     overflow: TextOverflow.ellipsis,
+                  //     style: Theme.of(context)
+                  //         .textTheme
+                  //         .bodyMedium!
+                  //         .apply(color: TColors.black)),
+                  // Text(city,
+                  //     overflow: TextOverflow.ellipsis,
+                  //     style: Theme.of(context)
+                  //         .textTheme
+                  //         .bodyMedium!
+                  //         .apply(color: TColors.black)),
+                  // Text(motherTongue,
+                  //     overflow: TextOverflow.ellipsis,
+                  //     style: Theme.of(context)
+                  //         .textTheme
+                  //         .bodyMedium!
+                  //         .apply(color: TColors.black)),
+                ],
+              ),
 
-                    final String subject =
-                        'You Are Shortlisted :: 😀 :: ${DateTime.now()}';
-                    final String messageText =
-                        'Hi $name,You Are Shortlisted By $firstName (Profile Id:$profileId)';
-                    userRepo.sendGmail(email, subject, messageText);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Icon(Iconsax.star1),
-                      Text('Shortlist',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .apply(color: TColors.black)),
-                    ],
+              Wrap(
+                alignment: WrapAlignment.start,
+                //mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  // Shortlist Button
+                  TextButton.icon(
+                    onPressed: onShortlistPressed ??
+                        () {
+                          final user = controller.user.value;
+                          final subject =
+                              'You Are Shortlisted :: ${DateTime.now()}';
+                          final message =
+                              'Hi $name, You Are Shortlisted By ${user.fullName} (Profile Id:${user.profileId})';
+                          userRepo.sendGmail(email, subject, message);
+                        },
+                    icon: const Icon(Iconsax.star1, size: TSizes.iconXs),
+                    label: Text('Shortlist', style: blackTextStyle),
                   ),
-                ),
-                //const SizedBox(width: TSizes.spaceBtwInputFields),
-
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Iconsax.chart),
-                ),
-                Text('54 mins ago',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                        .apply(color: TColors.black)),
-
-                TextButton(
-                  onPressed: () {
-                    final firstName = controller.user.value.fullName;
-                    final profileId = controller.user.value.profileId;
-
-                    final String subject =
-                        '$firstName is Interested in you.Respond to her.';
-                    final String messageText =
-                        "Dear $name,$firstName (Profile Id:$profileId) has expressed an interest in your profile.Don't wait,connect now";
-                    userRepo.sendGmail(email, subject, messageText);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Icon(Iconsax.tick_circle),
-                      Text('Interest',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .apply(color: TColors.black)),
-                    ],
+                  // TextButton(
+                  //   onPressed: () {
+                  //     final firstName = controller.user.value.fullName;
+                  //     final profileId = controller.user.value.profileId;
+                  //
+                  //     final String subject =
+                  //         'You Are Shortlisted :: 😀 :: ${DateTime.now()}';
+                  //     final String messageText =
+                  //         'Hi $name,You Are Shortlisted By $firstName (Profile Id:$profileId)';
+                  //     userRepo.sendGmail(email, subject, messageText);
+                  //   },
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.start,
+                  //     children: [
+                  //       const Icon(Iconsax.star1),
+                  //       Text('Shortlist',
+                  //           style: Theme.of(context)
+                  //               .textTheme
+                  //               .bodySmall!
+                  //               .apply(color: TColors.black)),
+                  //     ],
+                  //   ),
+                  // ),
+                  //const SizedBox(width: TSizes.spaceBtwInputFields),
+                  TextButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(Iconsax.chart),
+                    label: Text('54 mins ago', style: blackTextStyle),
                   ),
-                ),
-              ],
-            ),
-            const Divider(thickness: 1, color: Colors.green),
-          ],
+
+                  TextButton.icon(
+                    onPressed: onInterestPressed ??
+                        () {
+                          final user = controller.user.value;
+                          final subject =
+                              '${user.fullName} is Interested in you';
+                          final message =
+                              "Dear $name, ${user.fullName} (Profile Id:${user.profileId}) has expressed interest in your profile.";
+                          userRepo.sendGmail(email, subject, message);
+                        },
+                    icon: const Icon(Iconsax.tick_circle, size: TSizes.iconXs),
+                    label: Text('Interest', style: blackTextStyle),
+                  ),
+
+                  // TextButton(
+                  //   onPressed: () {
+                  //     final firstName = controller.user.value.fullName;
+                  //     final profileId = controller.user.value.profileId;
+                  //
+                  //     final String subject =
+                  //         '$firstName is Interested in you.Respond to her.';
+                  //     final String messageText =
+                  //         "Dear $name,$firstName (Profile Id:$profileId) has expressed an interest in your profile.Don't wait,connect now";
+                  //     userRepo.sendGmail(email, subject, messageText);
+                  //   },
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.start,
+                  //     children: [
+                  //       const Icon(Iconsax.tick_circle),
+                  //       Text('Interest',
+                  //           style: Theme.of(context)
+                  //               .textTheme
+                  //               .bodySmall!
+                  //               .apply(color: TColors.black)),
+                  //     ],
+                  //   ),
+                  // ),
+                ],
+              ),
+              //const Divider(thickness: 1, color: Colors.green),
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  Widget _buildInfoChip(String text) {
+    return Chip(
+      label: Text(
+        text,
+        overflow: TextOverflow.ellipsis,
+      ),
+      labelPadding: const EdgeInsets.symmetric(horizontal: 8),
+      visualDensity: VisualDensity.compact,
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
     );
   }
 }
