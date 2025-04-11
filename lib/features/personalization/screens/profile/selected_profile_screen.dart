@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -99,10 +100,7 @@ class SelectedProfileScreen extends StatelessWidget {
               const SizedBox(height: TSizes.spaceBtwItems),
 
               TProfileMenu(
-                  title: 'User ID',
-                  value: bioData.id,
-                  icon: Iconsax.copy,
-                  onPressed: () {}),
+                  title: 'User ID', value: bioData.id, onPressed: () {}),
               TProfileMenu(
                   title: 'E-mail', value: bioData.email, onPressed: () {}),
               TProfileMenu(
