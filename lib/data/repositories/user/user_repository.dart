@@ -302,6 +302,7 @@ class UserRepository extends GetxController {
     return userData;
   }
 
+  /// Fetch All User's BioData Equal to opposite Gender of the current User
   Future<List<BioDataModel>> allUserBioData() async {
     var value = '';
     final documentSnapshot = await _db
@@ -320,6 +321,28 @@ class UserRepository extends GetxController {
         .get();
     final userData =
         snapshot.docs.map((e) => BioDataModel.fromSnapshot(e)).toList();
+    return userData;
+  }
+
+  /// Fetch Selected User BioData by Profile Id
+  Future<BioDataModel> singleUserBioData(String profileId) async {
+    // var value = '';
+    // final documentSnapshot = await _db
+    //     .collection("Users")
+    //     .doc(AuthenticationRepository.instance.authUser?.uid)
+    //     .get();
+    // if (documentSnapshot.exists) {
+    //   Map<String, dynamic>? data = documentSnapshot.data();
+    //   value = data!['Gender'].toString();
+    //   print(value);
+    // }
+    //var profileId = '';
+    final snapshot = await _db
+        .collection("Users")
+        .where('ProfileId', isEqualTo: profileId)
+        .get();
+    final BioDataModel userData =
+        snapshot.docs.map((e) => BioDataModel.fromSnapshot(e)).single;
     return userData;
   }
 

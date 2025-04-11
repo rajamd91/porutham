@@ -25,21 +25,12 @@ class TProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = UserController.instance;
     final basicDetailController = Get.put(BasicDetailController());
-    //final basicDetailController = BasicDetailController.instance;
     final physicalDetailController = Get.put(PhysicalDetailController());
-    //final physicalDetailController = PhysicalDetailController.instance;
     final professionDetailController = Get.put(ProfessionController());
     final familyDetailController = Get.put(FamilyController());
     final religiousDetailController = Get.put(ReligiousController());
     final locationDetailController = Get.put(LocationController());
     final loginController = Get.put(LoginController());
-
-    //final professionDetailController = ProfessionController.instance;
-    // final professionController = ProfessionController.instance;
-    // final locationController = LocationController.instance;
-    // final religiousController = ReligiousController.instance;
-    // final physicalDetailController = PhysicalDetailController.instance;
-    // final familyDetailController = FamilyController.instance;
 
     return Scaffold(
       appBar: const TAppBar(showBackArrow: true, title: Text('Profile')),

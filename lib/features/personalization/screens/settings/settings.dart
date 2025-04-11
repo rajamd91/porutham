@@ -14,7 +14,6 @@ import '../../../../common/widgets/list_tiles/settings_menu_tile.dart';
 import '../../../../common/widgets/list_tiles/user_profile_tile.dart';
 import '../../../../common/widgets/texts/section_heading.dart';
 import '../../../authentication/controllers/login/login_controller.dart';
-import '../../../shop/screens/order/order.dart';
 import '../address/address.dart';
 import '../basic_detail/add_new_basic_detail.dart';
 import '../physical_detail/add_new_physical_details.dart';
@@ -141,11 +140,7 @@ class SettingsScreen extends StatelessWidget {
                       icon: Iconsax.shopping_cart,
                       title: "My Cart",
                       subTitle: "Add remove products and save to checkout"),
-                  TSettingsMenuTile(
-                      icon: Iconsax.bag_tick,
-                      title: "My Orders",
-                      subTitle: "In progress and completed Orders",
-                      onTap: () => Get.to(() => const OrderScreen())),
+
                   const TSettingsMenuTile(
                       icon: Iconsax.bank,
                       title: "Bank Account",

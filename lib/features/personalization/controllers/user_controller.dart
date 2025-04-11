@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:poruththam_app/features/authentication/controllers/network_manager.dart';
+import 'package:poruththam_app/features/personalization/models/biodata_model.dart';
 
 import '../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../data/repositories/user/user_repository.dart';
@@ -23,6 +24,7 @@ class UserController extends GetxController {
 
   final profileLoading = false.obs;
   Rx<UserModel> user = UserModel.empty().obs;
+  Rx<BioDataModel> bioData = BioDataModel.empty().obs;
 
   final hidePassword = false.obs;
   final imageUploading = false.obs;
@@ -37,6 +39,7 @@ class UserController extends GetxController {
   void onInit() {
     super.onInit();
     fetchUserRecord();
+    //fetchProfileRecord();
   }
 
   /// Fetch user record
@@ -49,6 +52,19 @@ class UserController extends GetxController {
       user(UserModel.empty());
     } finally {
       profileLoading.value = false;
+    }
+  }
+
+  /// Fetch Selected Profile record
+  Future<BioDataModel> fetchProfileRecord(String profileId) async {
+    try {
+      //profileLoading.value = true;
+      final BioDataModel bioData =
+          await userRepository.singleUserBioData(profileId);
+      this.bioData(bioData);
+      return bioData;
+    } catch (e) {
+      throw bioData(BioDataModel.empty());
     }
   }
 

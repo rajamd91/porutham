@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:poruththam_app/features/personalization/models/biodata_model.dart';
+import 'package:poruththam_app/features/personalization/screens/profile/selected_profile_screen.dart';
 import '../../../../../utils/constants/text_strings.dart';
 import '../../controllers/profile_controller.dart';
 import '../../widgets/profile_card_widget.dart';
@@ -42,23 +43,28 @@ class UpdateProfileScreen extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: snapshot.data!.length,
                     itemBuilder: (c, index) {
+                      final BioDataModel bioData = snapshot.data![index];
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TProfileCard(
-                            image: '${snapshot.data![index].profilePicture},',
-                            profileId: '${snapshot.data![index].profileId},',
-                            name: '${snapshot.data![index].fullName},',
-                            age:
-                                '${DateTime.now().difference(DateFormat("dd-MM-yyyy").parse(snapshot.data![index].birthDate)).inDays ~/ 365} Yrs,',
-                            height: '${snapshot.data![index].height},',
-                            religion: snapshot.data![index].religion,
-                            division: '${snapshot.data![index].division},',
-                            city: '${snapshot.data![index].city},',
-                            motherTongue:
-                                '${snapshot.data![index].motherTongue},',
-                            email: snapshot.data![index].email,
+                          GestureDetector(
+                            onTap: () => Get.to(
+                                () => SelectedProfileScreen(bioData: bioData)),
+                            child: TProfileCard(
+                              image: '${snapshot.data![index].profilePicture},',
+                              profileId: '${snapshot.data![index].profileId},',
+                              name: '${snapshot.data![index].fullName},',
+                              age:
+                                  '${DateTime.now().difference(DateFormat("dd-MM-yyyy").parse(snapshot.data![index].birthDate)).inDays ~/ 365} Yrs,',
+                              height: '${snapshot.data![index].height},',
+                              religion: snapshot.data![index].religion,
+                              division: '${snapshot.data![index].division},',
+                              city: '${snapshot.data![index].city},',
+                              motherTongue:
+                                  '${snapshot.data![index].motherTongue},',
+                              email: snapshot.data![index].email,
+                            ),
                           )
                         ],
                       );
