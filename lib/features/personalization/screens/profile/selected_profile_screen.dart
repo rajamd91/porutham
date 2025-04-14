@@ -11,6 +11,7 @@ import '../../../../../utils/constants/sizes.dart';
 import '../../../../common/widgets/images/t_circular_image.dart';
 import '../../../../common/widgets/shimmers/shimmer.dart';
 import '../../../../common/widgets/texts/section_heading.dart';
+import '../../../../data/repositories/user/user_repository.dart';
 import '../../../authentication/controllers/login/login_controller.dart';
 import '../../../personalization/controllers/user_controller.dart';
 
@@ -33,6 +34,7 @@ class SelectedProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userRepo = Get.put(UserRepository());
     final controller = UserController.instance;
     final loginController = Get.put(LoginController());
 
@@ -67,40 +69,104 @@ class SelectedProfileScreen extends StatelessWidget {
                               isNetworkImage: networkImage.isNotEmpty,
                             );
                     }),
-                    TextButton(
-                        onPressed: () => controller.uploadUserProfilePicture(),
-                        child: const Text('Change Profile Picture'))
+                    Text(
+                      'Profile ID:${bioData.profileId}',
+                      style: const TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      bioData.name,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    // TextButton(
+                    //     onPressed: () => controller.uploadUserProfilePicture(),
+                    //     child: const Text('Change Profile Picture'))
                   ],
                 ),
               ),
+              const SizedBox(height: TSizes.spaceBtwItems),
 
               /// Details
-              const SizedBox(height: TSizes.spaceBtwItems / 2),
-              const Divider(),
+              SizedBox(
+                height: TSizes.spaceBtwSections,
+                width: double.infinity,
+                child: Container(
+                  color: Colors.pink,
+                  child: Row(
+                    children: [
+                      TextButton.icon(
+                          onPressed: () {
+                            final user = controller.user.value;
+                            final email = bioData.email;
+                            final subject =
+                                'You Are Shortlisted :: ${DateTime.now()}';
+                            final message =
+                                'Hi ${bioData.name}, You Are Shortlisted By ${user.fullName} (Profile Id:${user.profileId})';
+                            userRepo.sendGmail(email, subject, message);
+                          },
+                          icon: const Icon(Iconsax.star1, size: 20),
+                          label: const Text('Shortlist',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold))),
+                      const SizedBox(width: TSizes.sm),
+                      TextButton.icon(
+                          onPressed: () {},
+                          icon: const Icon(Iconsax.call_add5,
+                              size: 20, color: Colors.yellow),
+                          label: const Text('Connect',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold))),
+                      const SizedBox(width: TSizes.sm),
+                      TextButton.icon(
+                          onPressed: () {
+                            final user = controller.user.value;
+                            final email = bioData.email;
+                            final subject =
+                                '${user.fullName} is Interested in you';
+                            final message =
+                                "Dear ${bioData.name}, ${user.fullName} (Profile Id:${user.profileId}) has expressed interest in your profile.";
+                            userRepo.sendGmail(email, subject, message);
+                          },
+                          icon: const Icon(
+                            Iconsax.heart5,
+                            size: 20,
+                            color: Colors.green,
+                          ),
+                          label: const Text('Interest',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold))),
+                      //const SizedBox(width: TSizes.sm),
+                    ],
+                  ),
+                ),
+              ),
+              //const Divider(),
               const SizedBox(height: TSizes.spaceBtwItems),
 
               /// Heading profile info
-              const TSectionHeading(
-                  title: 'Profile Information', showActionButton: false),
-              const SizedBox(height: TSizes.spaceBtwItems),
-
-              TProfileMenu(
-                  title: 'name',
-                  value: bioData.name,
-                  onPressed: () => Get.to(() => const ChangeName())),
-              TProfileMenu(
-                  title: 'Username', value: bioData.userName, onPressed: () {}),
-              const SizedBox(height: TSizes.spaceBtwItems),
-              const Divider(),
-              const SizedBox(height: TSizes.spaceBtwItems),
+              // const TSectionHeading(
+              //     title: 'Profile Information', showActionButton: false),
+              // const SizedBox(height: TSizes.spaceBtwItems),
+              //
+              // TProfileMenu(
+              //     title: 'name',
+              //     value: bioData.name,
+              //     onPressed: () => Get.to(() => const ChangeName())),
+              // TProfileMenu(
+              //     title: 'Username', value: bioData.userName, onPressed: () {}),
+              // const SizedBox(height: TSizes.spaceBtwItems),
+              // const Divider(),
+              // const SizedBox(height: TSizes.spaceBtwItems),
 
               /// Heading Personal Info
               const TSectionHeading(
-                  title: 'Personal Information', showActionButton: false),
+                  title: 'Contact Information', showActionButton: false),
               const SizedBox(height: TSizes.spaceBtwItems),
 
-              TProfileMenu(
-                  title: 'User ID', value: bioData.id, onPressed: () {}),
+              // TProfileMenu(
+              //     title: 'User ID', value: bioData.id, onPressed: () {}),
               TProfileMenu(
                   title: 'E-mail', value: bioData.email, onPressed: () {}),
               TProfileMenu(
@@ -265,34 +331,90 @@ class SelectedProfileScreen extends StatelessWidget {
               TProfileMenu(
                   title: 'Pin code', value: bioData.pincode, onPressed: () {}),
 
-              const Divider(),
+              //const Divider(),
               const SizedBox(height: TSizes.spaceBtwItems),
-              const SizedBox(height: TSizes.spaceBtwSections),
               SizedBox(
+                height: TSizes.spaceBtwSections,
                 width: double.infinity,
-                child: OutlinedButton(
-                    onPressed: () => Get.put(loginController.signOut()),
-                    child: const Text(
-                      'Logout',
-                      style: TextStyle(
-                          color: Colors.green,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    )),
+                child: Container(
+                  color: Colors.pink,
+                  child: Row(
+                    children: [
+                      TextButton.icon(
+                          onPressed: () {
+                            final user = controller.user.value;
+                            final email = bioData.email;
+                            final subject =
+                                'You Are Shortlisted :: ${DateTime.now()}';
+                            final message =
+                                'Hi ${bioData.name}, You Are Shortlisted By ${user.fullName} (Profile Id:${user.profileId})';
+                            userRepo.sendGmail(email, subject, message);
+                          },
+                          icon: const Icon(Iconsax.star1, size: 20),
+                          label: const Text('Shortlist',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold))),
+                      const SizedBox(width: TSizes.sm),
+                      TextButton.icon(
+                          onPressed: () {},
+                          icon: const Icon(Iconsax.call_add5,
+                              size: 20, color: Colors.yellow),
+                          label: const Text('Connect',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold))),
+                      const SizedBox(width: TSizes.sm),
+                      TextButton.icon(
+                          onPressed: () {
+                            final user = controller.user.value;
+                            final email = bioData.email;
+                            final subject =
+                                '${user.fullName} is Interested in you';
+                            final message =
+                                "Dear ${bioData.name}, ${user.fullName} (Profile Id:${user.profileId}) has expressed interest in your profile.";
+                            userRepo.sendGmail(email, subject, message);
+                          },
+                          icon: const Icon(
+                            Iconsax.heart5,
+                            size: 20,
+                            color: Colors.green,
+                          ),
+                          label: const Text('Interest',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold))),
+                      //const SizedBox(width: TSizes.sm),
+                    ],
+                  ),
+                ),
               ),
-              const SizedBox(height: TSizes.spaceBtwItems),
-              SizedBox(
-                width: double.infinity,
-                child: TextButton(
-                    onPressed: () => controller.deleteAccountWarningPopup(),
-                    child: const Text(
-                      'Close Account',
-                      style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    )),
-              )
+              const SizedBox(height: TSizes.spaceBtwSections),
+              // SizedBox(
+              //   width: double.infinity,
+              //   child: OutlinedButton(
+              //       onPressed: () => Get.put(loginController.signOut()),
+              //       child: const Text(
+              //         'Logout',
+              //         style: TextStyle(
+              //             color: Colors.green,
+              //             fontSize: 20,
+              //             fontWeight: FontWeight.bold),
+              //       )),
+              // ),
+              // const SizedBox(height: TSizes.spaceBtwItems),
+              // SizedBox(
+              //   width: double.infinity,
+              //   child: TextButton(
+              //       onPressed: () => controller.deleteAccountWarningPopup(),
+              //       child: const Text(
+              //         'Close Account',
+              //         style: TextStyle(
+              //             color: Colors.red,
+              //             fontSize: 20,
+              //             fontWeight: FontWeight.bold),
+              //       )),
+              // )
             ],
           ),
         ),
