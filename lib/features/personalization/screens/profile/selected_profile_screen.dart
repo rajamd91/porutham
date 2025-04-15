@@ -18,19 +18,7 @@ import '../../../personalization/controllers/user_controller.dart';
 class SelectedProfileScreen extends StatelessWidget {
   const SelectedProfileScreen({super.key, required this.bioData});
 
-  //final String profileId;
   final BioDataModel bioData;
-
-  // Future<void> getData() async {
-  //   // final bioDataController = Get.put(UserController());
-  //   // var bioData = await bioDataController.fetchProfileRecord(profileId);
-  //
-  //   final snapshot = await FirebaseFirestore.instance
-  //       .collection("Users")
-  //       .where('ProfileId', isEqualTo: profileId)
-  //       .get();
-  //   userData = snapshot.docs.map((e) => BioDataModel.fromSnapshot(e)).single;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -77,9 +65,6 @@ class SelectedProfileScreen extends StatelessWidget {
                       bioData.name,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    // TextButton(
-                    //     onPressed: () => controller.uploadUserProfilePicture(),
-                    //     child: const Text('Change Profile Picture'))
                   ],
                 ),
               ),
@@ -126,7 +111,8 @@ class SelectedProfileScreen extends StatelessWidget {
                                 '${user.fullName} is Interested in you';
                             final message =
                                 "Dear ${bioData.name}, ${user.fullName} (Profile Id:${user.profileId}) has expressed interest in your profile.";
-                            userRepo.sendGmail(email, subject, message);
+                            userRepo.saveInterestedRecord(email, subject,
+                                message, bioData.profileId, bioData.name);
                           },
                           icon: const Icon(
                             Iconsax.heart5,
@@ -142,42 +128,21 @@ class SelectedProfileScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              //const Divider(),
-              const SizedBox(height: TSizes.spaceBtwItems),
 
-              /// Heading profile info
-              // const TSectionHeading(
-              //     title: 'Profile Information', showActionButton: false),
-              // const SizedBox(height: TSizes.spaceBtwItems),
-              //
-              // TProfileMenu(
-              //     title: 'name',
-              //     value: bioData.name,
-              //     onPressed: () => Get.to(() => const ChangeName())),
-              // TProfileMenu(
-              //     title: 'Username', value: bioData.userName, onPressed: () {}),
-              // const SizedBox(height: TSizes.spaceBtwItems),
-              // const Divider(),
-              // const SizedBox(height: TSizes.spaceBtwItems),
+              const SizedBox(height: TSizes.spaceBtwItems),
 
               /// Heading Personal Info
               const TSectionHeading(
                   title: 'Contact Information', showActionButton: false),
               const SizedBox(height: TSizes.spaceBtwItems),
 
-              // TProfileMenu(
-              //     title: 'User ID', value: bioData.id, onPressed: () {}),
               TProfileMenu(
                   title: 'E-mail', value: bioData.email, onPressed: () {}),
               TProfileMenu(
                   title: 'Phone Number',
                   value: bioData.phoneNumber,
                   onPressed: () {}),
-              // TProfileMenu(title: 'Gender', value: 'Male', onPressed: () {}),
-              // TProfileMenu(
-              //     title: 'Date of Birth',
-              //     value: '10 Oct, 1994',
-              //     onPressed: () {}),
+
               const Divider(),
               const SizedBox(height: TSizes.spaceBtwItems),
               const TSectionHeading(
@@ -373,7 +338,8 @@ class SelectedProfileScreen extends StatelessWidget {
                                 '${user.fullName} is Interested in you';
                             final message =
                                 "Dear ${bioData.name}, ${user.fullName} (Profile Id:${user.profileId}) has expressed interest in your profile.";
-                            userRepo.sendGmail(email, subject, message);
+                            userRepo.saveInterestedRecord(email, subject,
+                                message, bioData.profileId, bioData.name);
                           },
                           icon: const Icon(
                             Iconsax.heart5,
@@ -384,37 +350,11 @@ class SelectedProfileScreen extends StatelessWidget {
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold))),
-                      //const SizedBox(width: TSizes.sm),
                     ],
                   ),
                 ),
               ),
               const SizedBox(height: TSizes.spaceBtwSections),
-              // SizedBox(
-              //   width: double.infinity,
-              //   child: OutlinedButton(
-              //       onPressed: () => Get.put(loginController.signOut()),
-              //       child: const Text(
-              //         'Logout',
-              //         style: TextStyle(
-              //             color: Colors.green,
-              //             fontSize: 20,
-              //             fontWeight: FontWeight.bold),
-              //       )),
-              // ),
-              // const SizedBox(height: TSizes.spaceBtwItems),
-              // SizedBox(
-              //   width: double.infinity,
-              //   child: TextButton(
-              //       onPressed: () => controller.deleteAccountWarningPopup(),
-              //       child: const Text(
-              //         'Close Account',
-              //         style: TextStyle(
-              //             color: Colors.red,
-              //             fontSize: 20,
-              //             fontWeight: FontWeight.bold),
-              //       )),
-              // )
             ],
           ),
         ),

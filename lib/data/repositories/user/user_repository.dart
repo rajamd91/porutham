@@ -11,6 +11,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:poruththam_app/features/personalization/models/basic_detail_model.dart';
 import 'package:poruththam_app/features/personalization/models/biodata_model.dart';
+import 'package:poruththam_app/features/personalization/screens/test/gmail_sent.dart';
 import '../../../features/personalization/models/user_model.dart';
 import '../authentication/authentication_repository.dart';
 
@@ -19,9 +20,39 @@ class UserRepository extends GetxController {
   static UserRepository get instance => Get.find();
 
   final FirebaseFirestore _db = FirebaseFirestore.instance;
+
   //final String recipientMail = '';
   //final String subject='';
   //final String message='';
+
+  /// save details of interested by user
+  Future<void> saveInterestedRecord(String recipientMail, String subject,
+      String messageText, String profileId, String name) async {
+    sendGmail(recipientMail, subject, messageText);
+    try {
+      final DateTime date = DateTime.now();
+      final String msg = "$name($profileId) is Interested in your profile";
+      await _db
+          .collection('Users')
+          .doc(AuthenticationRepository.instance.authUser?.uid)
+          .collection('SentInterest')
+          .add({
+        "ProfileId": profileId,
+        "Name": name,
+        "Date": date,
+        "Message": msg
+      });
+    } on FirebaseException catch (e) {
+      //throw TFirebaseException(e.code).message;
+      throw e.code;
+    } on FormatException {
+      throw "Something wrong";
+    } on PlatformException catch (e) {
+      throw e.code;
+    } catch (e) {
+      throw 'Something went wrong.Please try Again';
+    }
+  }
 
   /// Send Email Function
   void sendGmail(
